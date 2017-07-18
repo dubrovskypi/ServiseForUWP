@@ -11,11 +11,11 @@ namespace CodeFirst.Repositories
     {
         private SampleContext _db;
 
-        internal CustomRepository()
-        {
-            this._db = new SampleContext();
-            //InitDB();
-        }
+        //internal CustomRepository()
+        //{
+        //    this._db = new SampleContext();
+        //    //InitDB();
+        //}
 
         internal CustomRepository(SampleContext ctx)
         {
@@ -43,7 +43,7 @@ namespace CodeFirst.Repositories
             return _db.Customers;
         }
 
-        public Customer GetItem(int id)
+        public Customer GetItem(Guid id)
         {
             return _db.Customers.Find(id);
         }
@@ -58,7 +58,7 @@ namespace CodeFirst.Repositories
             _db.Entry(customer).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             Customer customer = _db.Customers.Find(id);
             if (customer != null)

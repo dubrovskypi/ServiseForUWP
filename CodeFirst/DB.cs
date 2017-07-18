@@ -17,7 +17,7 @@ namespace CodeFirst
         private static SqlConnectionStringBuilder _connStringBuilder = new SqlConnectionStringBuilder()
         {
             DataSource = "(LocalDB)\\MSSQLLocalDB", //server
-            InitialCatalog = "MyTestDB", //DB name
+            InitialCatalog = "testdbforuwp", //DB name
             //IntegratedSecurity = true,
 
             //IntegratedSecurity = false,

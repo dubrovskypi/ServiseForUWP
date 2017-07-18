@@ -6,13 +6,14 @@ namespace CodeFirst.Contextes
 {
     public class SampleContext : DbContext
     {
-        internal SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
-        //public SampleContext() : base()
-        {
-            //Database.SetInitializer<SampleContext>(new DBInitializer());
-            //var cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            //Database.Connection.ConnectionString = cs;
-        }
+        //дефолтный конструктор, пока не нужен
+        //internal SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
+        ////public SampleContext() : base()
+        //{
+        //    //Database.SetInitializer<SampleContext>(new DBInitializer());
+        //    //var cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        //    //Database.Connection.ConnectionString = cs;
+        //}
 
         internal SampleContext(string conStr): base (conStr)
         {

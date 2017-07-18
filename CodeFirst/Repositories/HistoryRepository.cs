@@ -14,11 +14,11 @@ namespace CodeFirst.Repositories
     {
         private SampleContext _db;
 
-        internal HistoryRepository()
-        {
-            this._db = new SampleContext();
-            //InitDB();
-        }
+        //internal HistoryRepository()
+        //{
+        //    this._db = new SampleContext();
+        //    //InitDB();
+        //}
 
         internal HistoryRepository(SampleContext ctx)
         {
@@ -46,7 +46,7 @@ namespace CodeFirst.Repositories
             return _db.HistoryRows;
         }
 
-        public HistoryRow GetItem(int id)
+        public HistoryRow GetItem(Guid id)
         {
             return _db.HistoryRows.Find(id);
         }
@@ -61,7 +61,7 @@ namespace CodeFirst.Repositories
             _db.Entry(historyrow).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
             HistoryRow historyrow = _db.HistoryRows.Find(id);
             if (historyrow != null)
