@@ -27,7 +27,7 @@ namespace CodeFirst.Contextes
                 De = 2,
                 Der = 3,
                 Time = DateTime.Now,
-                Type = 0
+                //Type = 0
             };
             context.HistoryRows.Add(defHistoryRow);
             context.SaveChanges();

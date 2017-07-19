@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using CodeFirst.Interfaces;
-using System.Runtime.Serialization;
 
-namespace CodeFirst.Entities
+namespace UwpClassLib
 {
     [DataContract]
-    public class HistoryRow//:IHistoryRow
+    public class UwpHistoryRow
     {
-        #region Constructors
 
-        #endregion
-
-        #region IHistoryRow Members
         [DataMember]
         public Guid HistoryRowId { get; set; }
         [DataMember]
@@ -31,8 +26,6 @@ namespace CodeFirst.Entities
         public double Der { get; set; }
         [DataMember]
         public double De { get; set; }
-
-        #endregion
     }
 
     public enum HistoryType
@@ -60,5 +53,4 @@ namespace CodeFirst.Entities
         /// </summary>
         Calibration = 'C'
     }
-
 }

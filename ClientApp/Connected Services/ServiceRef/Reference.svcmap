@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3be0807b-6c9a-430b-adea-7c1d7ba36061" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.ObjectModel.ObservableCollection`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>false</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:55195/DbServiceForUwp.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="DbServiceForUwp.xsd" MetadataType="Schema" ID="88b553d1-f138-48b1-b026-79923b11c735" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?xsd=xsd1" />
+    <MetadataFile FileName="DbServiceForUwp1.xsd" MetadataType="Schema" ID="78c67c1e-8cd9-4260-a799-31ecfbffc206" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?xsd=xsd3" />
+    <MetadataFile FileName="DbServiceForUwp2.xsd" MetadataType="Schema" ID="6a4eca7f-a4c6-400e-8564-199cec44fd72" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?xsd=xsd0" />
+    <MetadataFile FileName="DbServiceForUwp.wsdl" MetadataType="Wsdl" ID="f351ee17-e12f-4200-9c32-79dae71db036" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?wsdl" />
+    <MetadataFile FileName="DbServiceForUwp.disco" MetadataType="Disco" ID="e35b6e76-cfd1-43ee-9826-700a5fb3e40d" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?disco" />
+    <MetadataFile FileName="DbServiceForUwp3.xsd" MetadataType="Schema" ID="ae21e5d1-6a8b-4381-b4a7-72c788d59df0" SourceId="1" SourceUrl="http://localhost:55195/DbServiceForUwp.svc?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -6,8 +6,13 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceForUWP", "ServiceForUWP\ServiceForUWP.csproj", "{06649135-BC9C-4548-BF18-E17EC1464504}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp", "ClientApp\ClientApp.csproj", "{6314DE16-7217-46B7-BD04-1B32CFF29E1C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06649135-BC9C-4548-BF18-E17EC1464504} = {06649135-BC9C-4548-BF18-E17EC1464504}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeFirst", "CodeFirst\CodeFirst.csproj", "{D696CDED-A15B-408D-BEB9-33BE58165687}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UwpClassLib", "UwpClassLib\UwpClassLib.csproj", "{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,6 +78,22 @@ Global
 		{D696CDED-A15B-408D-BEB9-33BE58165687}.Release|x64.Build.0 = Release|Any CPU
 		{D696CDED-A15B-408D-BEB9-33BE58165687}.Release|x86.ActiveCfg = Release|Any CPU
 		{D696CDED-A15B-408D-BEB9-33BE58165687}.Release|x86.Build.0 = Release|Any CPU
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|ARM.ActiveCfg = Debug|ARM
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|ARM.Build.0 = Debug|ARM
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|x64.ActiveCfg = Debug|x64
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|x64.Build.0 = Debug|x64
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|x86.ActiveCfg = Debug|x86
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Debug|x86.Build.0 = Debug|x86
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|ARM.ActiveCfg = Release|ARM
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|ARM.Build.0 = Release|ARM
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|x64.ActiveCfg = Release|x64
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|x64.Build.0 = Release|x64
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|x86.ActiveCfg = Release|x86
+		{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:tns="http://schemas.datacontract.org/2004/07/CodeFirst.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CodeFirst.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:55195/DbServiceForUwp.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="ArrayOfHistoryRow">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="HistoryRow" nillable="true" type="tns:HistoryRow" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfHistoryRow" nillable="true" type="tns:ArrayOfHistoryRow" />
+  <xs:complexType name="HistoryRow">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Cps" type="xs:double" />
+      <xs:element minOccurs="0" name="De" type="xs:double" />
+      <xs:element minOccurs="0" name="Der" type="xs:double" />
+      <xs:element minOccurs="0" name="HistoryRowId" type="ser:guid" />
+      <xs:element minOccurs="0" name="Time" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="HistoryRow" nillable="true" type="tns:HistoryRow" />
+</xs:schema>
