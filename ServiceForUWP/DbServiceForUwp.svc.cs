@@ -109,7 +109,7 @@ namespace ServiceForUWP
         }
 
         //public void AddHistoryRow()
-        public void AddHistoryRow(Timetable newRow)
+        public void AddHistoryRow(HistoryRow newRow)
         {
             var s = newRow;
             //AddHRow(new HistoryRow()
@@ -122,7 +122,7 @@ namespace ServiceForUWP
             //    Type = HistoryType.ChangedNCoefficent
             //});
 
-            //AddHRow(newRow);
+            AddHRow(newRow);
         }
 
         public void AddHistory(List<HistoryRow> newHistory)

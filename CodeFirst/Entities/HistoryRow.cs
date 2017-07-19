@@ -18,8 +18,8 @@ namespace CodeFirst.Entities
         #region IHistoryRow Members
         [DataMember]
         public Guid HistoryRowId { get; set; }
-        [DataMember]
-        public DateTime Time { get; set; }
+        //[DataMember]
+        //public DateTime Time { get; set; }
 
         //todo решить косяк с преобразованием в json (или обратно)
         //[DataMember]

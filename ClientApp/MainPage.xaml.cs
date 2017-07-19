@@ -32,20 +32,20 @@ namespace ClientApp
     /// 
     /// 
     /// 
-    public class Timetable
-    {
+    //public class Timetable
+    //{
         
-        public int id { get; set; }
+    //    public int id { get; set; }
 
         
-        //public DateTime arrivaltime { get; set; }
+    //    //public DateTime arrivaltime { get; set; }
 
         
-        public Int16 busnumber { get; set; }
+    //    public Int16 busnumber { get; set; }
 
         
-        public string busstation { get; set; }
-    }
+    //    public string busstation { get; set; }
+    //}
     public sealed partial class MainPage : Page
     {
 
@@ -80,6 +80,7 @@ namespace ClientApp
             var json = await client.GetStringAsync(uri);
             List<HistoryRowModel> appsdata = JsonConvert.DeserializeObject<List<HistoryRowModel>>(json);
             answertb.Text = json;
+            if (HistoryList.ItemsSource != null) HistoryList.ItemsSource = null;
             HistoryList.ItemsSource = appsdata;
         }
 
@@ -101,16 +102,16 @@ namespace ClientApp
             //};
             var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
             System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-            var newrowmodel = new Timetable()
+            var newrowmodel = new HistoryRowModel()
             {
                 //arrivaltime = DateTime.Now,
-                busnumber = 5,
-                busstation = "station",
-                id = 9
-                //Cps = Convert.ToDouble(Cpstb.Text),
-                //De = Convert.ToDouble(Detb.Text),
-                //Der = Convert.ToDouble(Dertb.Text),
-                //HistoryRowId = Guid.NewGuid(),
+                //busnumber = 5,
+                //busstation = "station",
+                //id = 9
+                Cps = Convert.ToDouble(Cpstb.Text),
+                De = Convert.ToDouble(Detb.Text),
+                Der = Convert.ToDouble(Dertb.Text),
+                HistoryRowId = Guid.NewGuid(),
                 //Time = DateTime.Now,
                 //Type = HistoryType.ChangedNCoefficent
             };
@@ -131,8 +132,20 @@ namespace ClientApp
                 // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
             }
 
-
-            string postBody = JsonSerializer(newrowmodel);
+            var newrowmodel2 = new HistoryRowModel()
+            {
+                //arrivaltime = DateTime.Now,
+                //busnumber = 5,
+                //busstation = "station",
+                //id = 9
+                Cps = Convert.ToDouble(Cpstb.Text),
+                De = Convert.ToDouble(Detb.Text),
+                Der = Convert.ToDouble(Dertb.Text),
+                HistoryRowId = Guid.NewGuid(),
+                //Time = DateTime.Now,
+                //Type = HistoryType.ChangedNCoefficent
+            };
+            string postBody = JsonSerializer(newrowmodel2);
             var client2 = new HttpClient();
             client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             HttpResponseMessage wcfResponse = await client2.PostAsync(uri, new StringContent(postBody, Encoding.UTF8, "application/json"));

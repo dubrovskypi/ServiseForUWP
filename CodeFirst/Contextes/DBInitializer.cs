@@ -26,7 +26,7 @@ namespace CodeFirst.Contextes
                 Cps = 1,
                 De = 2,
                 Der = 3,
-                Time = DateTime.Now,
+                //Time = DateTime.Now,
                 //Type = 0
             };
             context.HistoryRows.Add(defHistoryRow);

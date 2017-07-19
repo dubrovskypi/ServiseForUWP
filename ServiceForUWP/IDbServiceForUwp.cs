@@ -26,7 +26,7 @@ namespace ServiceForUWP
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
             Method = "POST")]        
-        void AddHistoryRow(Timetable newRow);
+        void AddHistoryRow(HistoryRow newRow);
 
         //todo cделать атрибуты webinvoke
         [WebInvoke(UriTemplate = "/AddHistory",
@@ -54,19 +54,19 @@ namespace ServiceForUWP
         //List<Timetable> GetScheduleJson();
     }
 
-    [DataContract]
-    public class Timetable
-    {
-        [DataMember]
-        public int id { get; set; }
+    //[DataContract]
+    //public class Timetable
+    //{
+    //    [DataMember]
+    //    public int id { get; set; }
 
-        //[DataMember]
-        //public DateTime arrivaltime { get; set; }
+    //    //[DataMember]
+    //    //public DateTime arrivaltime { get; set; }
 
-        [DataMember]
-        public Int16 busnumber { get; set; }
+    //    [DataMember]
+    //    public Int16 busnumber { get; set; }
 
-        [DataMember]
-        public string busstation { get; set; }
-    }
+    //    [DataMember]
+    //    public string busstation { get; set; }
+    //}
 }
