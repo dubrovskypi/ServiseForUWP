@@ -13,6 +13,7 @@ namespace ServiceForUWP
     [ServiceContract]
     public interface IDbServiceForUwp
     {
+        [OperationContract]
         [WebGet(UriTemplate = "/GetHistoryRowsJson",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
@@ -27,26 +28,26 @@ namespace ServiceForUWP
             Method = "POST")]        
         void AddHistoryRow(HistoryRow newRow);
 
-        //todo cделать атрибуты webinvoke
+        [OperationContract]
         [WebInvoke(UriTemplate = "/AddHistory",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
+            BodyStyle = WebMessageBodyStyle.Bare,
             Method = "POST")]
         void AddHistory(List<HistoryRow> newHistory);
 
-        [WebInvoke(UriTemplate = "/DeleteHistoryRow",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            Method = "POST")]
-        void DeleteHistoryRow(HistoryRow row);
+        //[WebInvoke(UriTemplate = "/DeleteHistoryRow",
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json,
+        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        //    Method = "POST")]
+        //void DeleteHistoryRow(HistoryRow row);
 
-        [WebInvoke(UriTemplate = "/ClearHistory",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.WrappedRequest,
-            Method = "POST")]
-        void ClearHistory();
+        //[WebInvoke(UriTemplate = "/ClearHistory",
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json,
+        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
+        //    Method = "POST")]
+        //void ClearHistory();
     }
 }

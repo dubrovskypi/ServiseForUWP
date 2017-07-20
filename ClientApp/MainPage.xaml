@@ -12,27 +12,30 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Padding="30" Grid.Row="0">
             <Button Content="getData" Click="Button_Click"/>
             <TextBlock Name="answertb" ></TextBlock>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" MaxHeight="500" MinHeight="50">
             <ListView x:Name="HistoryList">
                 <ListView.ItemTemplate>
-                    <DataTemplate  x:DataType="local:HistoryRowModel">
+                    <DataTemplate x:DataType="local:HistoryRowModel">
                         <StackPanel Orientation="Horizontal">
-                            <!--<TextBlock Text="{Binding Time}" />-->
-                            <TextBlock Text="{Binding Cps}" />
-                            <TextBlock Text="{Binding De}" />
-                            <TextBlock Text="{Binding Der}" />
-                            <TextBlock Text="{Binding Type}" />
+                            <TextBlock Text="{Binding Time}" Margin="10,0"/>
+                            <TextBlock Text="{Binding Cps}" Margin="10,0" />
+                            <TextBlock Text="{Binding De}" Margin="10,0" />
+                            <TextBlock Text="{Binding Der}" Margin="10,0" />
+                            <TextBlock Text="{Binding Type}" Margin="10,0" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
-        <Grid Padding="30" Grid.Row="1" >
+        </ScrollViewer>
+        <Grid Padding="30" Grid.Row="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -66,9 +69,28 @@
                     <TextBox Name="Typetb" Margin="5" Width="100"></TextBox>
                 </StackPanel>
             </Grid>
-            <Button Content="addrow" Grid.Column="1" Click="AddRow_Button_Click"></Button>
+
+            <StackPanel Grid.Column="1">
+                <Button Content="addrow"  Margin="10"  Click="AddRow_Button_Click"></Button>
+                <Button Content="addtesthistory" Margin="10" Click="Button_Click_1"></Button>
+            </StackPanel>
         </Grid>
 
 
     </Grid>
 </Page>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

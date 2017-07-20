@@ -30,20 +30,67 @@ namespace ServiceForUWP
 
             historyRepository = DB.CreateHistoryRepository();
         }
+        #region IDbServiceForUwp_Implementation
 
         public List<HistoryRow> GetHistoryRowsJson()
         {
-            return GetHistory();
+            var history = GetHistory();
+            return history;
         }
+
+        public void AddHistoryRow(HistoryRow newRow)
+        {
+            WriteHistoryRow(newRow);
+        }
+
+        public void AddHistory(List<HistoryRow> newHistory)
+        {
+            WriteHistory(newHistory);
+        }
+
+        //public void DeleteHistoryRow(HistoryRow row)
+        //{
+        //    try
+        //    {
+        //        if (historyRepository == null) return;
+
+        //        historyRepository.Delete(row.HistoryRowId);
+        //        historyRepository.Save();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new FaultException(e.Message);
+        //    }
+        //}
+
+        //public void ClearHistory()
+        //{
+        //    try
+        //    {
+        //        if (historyRepository == null) return;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new FaultException(e.Message);
+        //    }
+        //}
+        #endregion
+
+        #region PrivateMetods
 
         private List<HistoryRow> GetHistory()
         {
-            var historyRowsList = new List<HistoryRow>();
-            if (historyRepository == null) return historyRowsList;
-
-            historyRowsList = historyRepository.GetItems().ToList();
-
-            return historyRowsList;
+            try
+            {
+                var historyRowsList = new List<HistoryRow>();
+                if (historyRepository == null) return historyRowsList;
+                historyRowsList = historyRepository.GetItems().ToList();
+                return historyRowsList;
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(e.Message);
+            }
             //using (DataSet ds = new DataSet())
             //{
             //    using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
@@ -92,72 +139,11 @@ namespace ServiceForUWP
             //}
         }
 
-        //public void AddHistoryRow()
-        public void AddHistoryRow(HistoryRow newRow)
-        {
-            var s = newRow;
-            //AddHRow(new HistoryRow()
-            //{
-            //    HistoryRowId = Guid.NewGuid(),
-            //    Cps = 0.1,
-            //    De = 0.2,
-            //    Der = 0.3,
-            //    Time = DateTime.Now,
-            //    Type = HistoryType.ChangedNCoefficent
-            //});
-
-            AddHRow(newRow);
-        }
-
-        public void AddHistory(List<HistoryRow> newHistory)
-        {
-            try
-            {
-                if (historyRepository == null) return;
-                foreach (HistoryRow row in newHistory) historyRepository.Create(row);
-                historyRepository.Save();
-            }
-            catch (Exception e)
-            {
-                throw new FaultException(e.Message);
-            }
-        }
-
-        public void DeleteHistoryRow(HistoryRow row)
-        {
-            try
-            {
-                if (historyRepository == null) return;
-
-                historyRepository.Delete(row.HistoryRowId);
-                historyRepository.Save();
-            }
-            catch (Exception e)
-            {
-                throw new FaultException(e.Message);
-            }
-        }
-
-        public void ClearHistory()
-        {
-            try
-            {
-                if (historyRepository == null) return;
-
-            //TODO полная очистка истории
-            }
-            catch (Exception e)
-            {
-                throw new FaultException(e.Message);
-            }
-        }
-
-        private void AddHRow(HistoryRow newRow)
+        private void WriteHistoryRow(HistoryRow newRow)
         {
             try
             {
                 if (historyRepository == null) return ;
-
                 historyRepository.Create(newRow);
                 historyRepository.Save();
             }
@@ -166,6 +152,21 @@ namespace ServiceForUWP
                 throw new FaultException(e.Message);
             }
         }
+
+        private void WriteHistory(IEnumerable<HistoryRow> newHistory)
+        {
+            try
+            {
+                if (historyRepository == null) return;
+                foreach (var row in newHistory) historyRepository.Create(row);
+                historyRepository.Save();
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(e.Message);
+            }
+        }
+        #endregion
 
         public void Dispose()
         {

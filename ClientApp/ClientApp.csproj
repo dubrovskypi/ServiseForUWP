@@ -95,11 +95,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Connected Services\ServiceRef\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="HistoryRowModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -111,29 +106,9 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="ClientApp_TemporaryKey.pfx" />
-    <None Include="Connected Services\ServiceRef\ClientApp.ServiceRef.HistoryRow.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp.wsdl" />
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp3.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\ServiceReferences.Designer.ClientConfig" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp.disco" />
-    <None Include="Connected Services\ServiceRef\configuration91.svcinfo" />
-    <None Include="Connected Services\ServiceRef\configuration.svcinfo" />
-    <None Include="Connected Services\ServiceRef\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -166,9 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ServiceRef\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

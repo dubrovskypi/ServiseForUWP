@@ -40,13 +40,21 @@ namespace ClientApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            GetData();
+            GetHistory();
         }
 
-        public async void GetData()
+        private async void AddRow_Button_Click(object sender, RoutedEventArgs e)
         {
+            await AddHistoryRow();
+        }
 
-            //URL нормальный нужно юзать
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            AddTestHistory();
+        }
+
+        public async void GetHistory()
+        {
             //var uri = new Uri("http://localhost:64870/service1.svc/GetScheduleJson");
             //var client = new Windows.Web.Http.HttpClient();
             //var json = await client.GetStringAsync(uri);
@@ -75,16 +83,15 @@ namespace ClientApp
                 Console.WriteLine(e);
                 throw;
             }
-
         }
 
-        private async void AddRow_Button_Click(object sender, RoutedEventArgs e)
+        private async Task AddHistoryRow()
         {
             var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
 
             try
             {
-                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                HttpClient client = new HttpClient();
                 var newrowmodel = new HistoryRowModel()
                 {
                     Cps = Convert.ToDouble(Cpstb.Text),
@@ -95,6 +102,7 @@ namespace ClientApp
                     Type = HistoryType.ChangedNCoefficent
                 };
 
+                //установка настроек сериализации
                 JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
                 {
                     DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
@@ -121,6 +129,7 @@ namespace ClientApp
                 Console.WriteLine(ex);
             }
 
+            //отправка пост-запроса данными, сериализованными стандартным способом microsoft
             //try
             //{
             //    var newrowmodel2 = new HistoryRowModel()
@@ -143,20 +152,84 @@ namespace ClientApp
             //}
         }
 
-        public string JsonSerializer(object objectToSerialize)
+        private async void AddTestHistory()
         {
-            if (objectToSerialize == null)
+            try
             {
-                throw new ArgumentException("objectToSerialize must not be null");
-            }
-            MemoryStream ms = null;
+                HttpClient client = new HttpClient();
+                List<HistoryRowModel> history = new List<HistoryRowModel>();
+                Random random = new Random();
 
-            DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
-            ms = new MemoryStream();
-            serializer.WriteObject(ms, objectToSerialize);
-            ms.Seek(0, SeekOrigin.Begin);
-            StreamReader sr = new StreamReader(ms);
-            return sr.ReadToEnd();
+                for (int i = 0; i < 100; i++)
+                {
+                    var newrowmodel = new HistoryRowModel()
+                    {
+                        Cps = random.NextDouble(),
+                        De = random.NextDouble(),
+                        Der = random.NextDouble(),
+                        HistoryRowId = Guid.NewGuid(),
+                        Time = DateTime.Now,
+                        Type = HistoryType.DeviceOn
+                    };
+                    history.Add(newrowmodel);
+                }
+
+                //установка настроек сериализации
+                JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
+                {
+                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+                };
+                // Serialize our concrete class into a JSON String
+                var stringPayload = JsonConvert.SerializeObject(history, microsoftDateFormatSettings);
+
+                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+                //StreamContent httpContent;
+                //using (Stream s = GenerateStreamFromString(stringPayload))
+                //{
+                //    httpContent = new StreamContent(s);
+                //}
+                // Do the actual request and await the response
+                var httpResponse = await client.PostAsync(new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistory"), httpContent);
+
+                // If the response contains content we want to read it!
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    answertb.Text = responseContent;
+                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
+
+        public static Stream GenerateStreamFromString(string s)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+        //public string JsonSerializer(object objectToSerialize)
+        //{
+        //    if (objectToSerialize == null)
+        //    {
+        //        throw new ArgumentException("objectToSerialize must not be null");
+        //    }
+        //    MemoryStream ms = null;
+
+        //    DataContractJsonSerializer serializer = new DataContractJsonSerializer(objectToSerialize.GetType());
+        //    ms = new MemoryStream();
+        //    serializer.WriteObject(ms, objectToSerialize);
+        //    ms.Seek(0, SeekOrigin.Begin);
+        //    StreamReader sr = new StreamReader(ms);
+        //    return sr.ReadToEnd();
+        //}
     }
 }
