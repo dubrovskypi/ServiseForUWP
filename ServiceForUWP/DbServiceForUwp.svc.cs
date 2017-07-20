@@ -16,7 +16,7 @@ namespace ServiceForUWP
 {
     // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени класса "Service1" в коде, SVC-файле и файле конфигурации.
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
-    public class DbServiceForUwp : IDbServiceForUwp
+    public class DbServiceForUwp : IDbServiceForUwp, IDisposable
     {
         private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private IRepository<HistoryRow> historyRepository;
@@ -35,22 +35,6 @@ namespace ServiceForUWP
         {
             return GetHistory();
         }
-
-        //private List<Timetable> GetSchedule()
-        //{
-        //    List<Timetable> Schedule = new List<Timetable>
-        //  {
-        //    new Timetable
-        //    {
-        //        id=1, arrivaltime=DateTime.Parse("12:05:00"), busnumber=5, busstation ="Березка"
-        //    },
-        //    new Timetable
-        //    {
-        //        id=2, arrivaltime =DateTime.Parse("12:10:00"), busnumber=5, busstation ="Детский мир"
-        //    }
-        //  };
-        //    return Schedule;
-        //}
 
         private List<HistoryRow> GetHistory()
         {
@@ -181,6 +165,11 @@ namespace ServiceForUWP
             {
                 throw new FaultException(e.Message);
             }
+        }
+
+        public void Dispose()
+        {
+            historyRepository?.Dispose();
         }
     }
 }

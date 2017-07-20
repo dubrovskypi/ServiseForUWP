@@ -43,6 +43,7 @@ namespace CodeFirst.Repositories
 
         public IEnumerable<HistoryRow> GetItems()
         {
+            _db.HistoryRows.Load();
             return _db.HistoryRows;
         }
 

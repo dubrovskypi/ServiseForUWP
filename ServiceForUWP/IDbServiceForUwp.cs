@@ -10,7 +10,6 @@ using CodeFirst.Entities;
 
 namespace ServiceForUWP
 {
-    // ПРИМЕЧАНИЕ. Команду "Переименовать" в меню "Рефакторинг" можно использовать для одновременного изменения имени интерфейса "IService1" в коде и файле конфигурации.
     [ServiceContract]
     public interface IDbServiceForUwp
     {
@@ -49,24 +48,5 @@ namespace ServiceForUWP
             BodyStyle = WebMessageBodyStyle.WrappedRequest,
             Method = "POST")]
         void ClearHistory();
-
-
-        //List<Timetable> GetScheduleJson();
     }
-
-    //[DataContract]
-    //public class Timetable
-    //{
-    //    [DataMember]
-    //    public int id { get; set; }
-
-    //    //[DataMember]
-    //    //public DateTime arrivaltime { get; set; }
-
-    //    [DataMember]
-    //    public Int16 busnumber { get; set; }
-
-    //    [DataMember]
-    //    public string busstation { get; set; }
-    //}
 }

@@ -22,7 +22,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate  x:DataType="local:HistoryRowModel">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Time}" />
+                            <!--<TextBlock Text="{Binding Time}" />-->
                             <TextBlock Text="{Binding Cps}" />
                             <TextBlock Text="{Binding De}" />
                             <TextBlock Text="{Binding Der}" />

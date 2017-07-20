@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 namespace CodeFirst.Entities
 {
     [DataContract]
-    public class HistoryRow//:IHistoryRow
+    public class HistoryRow:IHistoryRow
     {
         #region Constructors
 
@@ -18,12 +18,12 @@ namespace CodeFirst.Entities
         #region IHistoryRow Members
         [DataMember]
         public Guid HistoryRowId { get; set; }
-        //[DataMember]
-        //public DateTime Time { get; set; }
+        [DataMember]
+        public DateTime Time { get; set; }
 
         //todo решить косяк с преобразованием в json (или обратно)
-        //[DataMember]
-        //public HistoryType Type { get; set; }
+        [DataMember]
+        public HistoryType Type { get; set; }
 
         [DataMember]
         public double Cps { get; set; }

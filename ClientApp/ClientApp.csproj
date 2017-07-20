@@ -118,9 +118,6 @@
     <None Include="Connected Services\ServiceRef\DbServiceForUwp.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceRef\DbServiceForUwp1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\ServiceRef\DbServiceForUwp2.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -169,12 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UwpClassLib\UwpClassLib.csproj">
-      <Project>{CF1B963E-CD85-4897-BC2F-B0A974FFAFFE}</Project>
-      <Name>UwpClassLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\ServiceRef\" />

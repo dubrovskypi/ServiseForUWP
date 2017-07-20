@@ -30,6 +30,8 @@ namespace ClientApp.ServiceRef {
         
         private System.DateTime TimeField;
         
+        private ClientApp.ServiceRef.HistoryType TypeField;
+        
         [System.Runtime.Serialization.DataMemberAttribute()]
         public double Cps {
             get {
@@ -95,6 +97,19 @@ namespace ClientApp.ServiceRef {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public ClientApp.ServiceRef.HistoryType Type {
+            get {
+                return this.TypeField;
+            }
+            set {
+                if ((this.TypeField.Equals(value) != true)) {
+                    this.TypeField = value;
+                    this.RaisePropertyChanged("Type");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -105,64 +120,39 @@ namespace ClientApp.ServiceRef {
         }
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Timetable", Namespace="http://schemas.datacontract.org/2004/07/ServiceForUWP")]
-    public partial class Timetable : object, System.ComponentModel.INotifyPropertyChanged {
+    [System.Runtime.Serialization.DataContractAttribute(Name="HistoryType", Namespace="http://schemas.datacontract.org/2004/07/CodeFirst.Entities")]
+    public enum HistoryType : int {
         
-        private short busnumberField;
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DeviceOff = 48,
         
-        private string busstationField;
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DeviceOn = 49,
         
-        private int idField;
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Background = 70,
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public short busnumber {
-            get {
-                return this.busnumberField;
-            }
-            set {
-                if ((this.busnumberField.Equals(value) != true)) {
-                    this.busnumberField = value;
-                    this.RaisePropertyChanged("busnumber");
-                }
-            }
-        }
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Alaram = 65,
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string busstation {
-            get {
-                return this.busstationField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.busstationField, value) != true)) {
-                    this.busstationField = value;
-                    this.RaisePropertyChanged("busstation");
-                }
-            }
-        }
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ChangedNCoefficent = 83,
         
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int id {
-            get {
-                return this.idField;
-            }
-            set {
-                if ((this.idField.Equals(value) != true)) {
-                    this.idField = value;
-                    this.RaisePropertyChanged("id");
-                }
-            }
-        }
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ChangedSinSignaling = 115,
         
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DerThreshold1Alarm = 101,
         
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DerThreshold2Alarm = 69,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DeThresholdAlarm = 68,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Calibration = 67,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -173,7 +163,7 @@ namespace ClientApp.ServiceRef {
         System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<ClientApp.ServiceRef.HistoryRow>> GetHistoryRowsJsonAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDbServiceForUwp/AddHistoryRow", ReplyAction="http://tempuri.org/IDbServiceForUwp/AddHistoryRowResponse")]
-        System.Threading.Tasks.Task AddHistoryRowAsync(ClientApp.ServiceRef.Timetable newRow);
+        System.Threading.Tasks.Task AddHistoryRowAsync(ClientApp.ServiceRef.HistoryRow newRow);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDbServiceForUwp/AddHistory", ReplyAction="http://tempuri.org/IDbServiceForUwp/AddHistoryResponse")]
         System.Threading.Tasks.Task AddHistoryAsync(System.Collections.ObjectModel.ObservableCollection<ClientApp.ServiceRef.HistoryRow> newHistory);
@@ -201,7 +191,7 @@ namespace ClientApp.ServiceRef {
             return base.Channel.GetHistoryRowsJsonAsync();
         }
         
-        public System.Threading.Tasks.Task AddHistoryRowAsync(ClientApp.ServiceRef.Timetable newRow) {
+        public System.Threading.Tasks.Task AddHistoryRowAsync(ClientApp.ServiceRef.HistoryRow newRow) {
             return base.Channel.AddHistoryRowAsync(newRow);
         }
         
