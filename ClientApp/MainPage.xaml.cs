@@ -78,73 +78,69 @@ namespace ClientApp
 
         }
 
-
-        //TODO хз как передать объект в пост запросе
         private async void AddRow_Button_Click(object sender, RoutedEventArgs e)
         {
             var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
 
-            //try
-            //{
-            //    System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-            //    var newrowmodel = new HistoryRowModel()
-            //    {
-            //        Cps = Convert.ToDouble(Cpstb.Text),
-            //        De = Convert.ToDouble(Detb.Text),
-            //        Der = Convert.ToDouble(Dertb.Text),
-            //        HistoryRowId = Guid.NewGuid(),
-            //        Time = DateTime.Now,
-            //        Type = HistoryType.ChangedNCoefficent
-            //    };
-            //    // Serialize our concrete class into a JSON String
-            //    var stringPayload = JsonConvert.SerializeObject(newrowmodel);
-
-            //    // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
-            //    var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-            //    // Do the actual request and await the response
-            //    var httpResponse = await client.PostAsync(uri, httpContent);
-
-            //    // If the response contains content we want to read it!
-            //    if (httpResponse.Content != null)
-            //    {
-            //        var responseContent = await httpResponse.Content.ReadAsStringAsync();
-            //        answertb.Text = responseContent;
-            //        // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
-
             try
             {
-                var newrowmodel2 = new HistoryRowModel()
+                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                var newrowmodel = new HistoryRowModel()
                 {
                     Cps = Convert.ToDouble(Cpstb.Text),
                     De = Convert.ToDouble(Detb.Text),
                     Der = Convert.ToDouble(Dertb.Text),
                     HistoryRowId = Guid.NewGuid(),
                     Time = DateTime.Now,
-                    Type = HistoryType.Alaram
+                    Type = HistoryType.ChangedNCoefficent
                 };
-                string postBody = JsonSerializer(newrowmodel2);
-                var client2 = new HttpClient();
-                client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage wcfResponse = await client2.PostAsync(uri, new StringContent(postBody, Encoding.UTF8, "application/json"));
+
+                JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
+                {
+                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+                };
+                // Serialize our concrete class into a JSON String
+                var stringPayload = JsonConvert.SerializeObject(newrowmodel, microsoftDateFormatSettings);
+
+                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                // Do the actual request and await the response
+                var httpResponse = await client.PostAsync(uri, httpContent);
+
+                // If the response contains content we want to read it!
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    answertb.Text = responseContent;
+                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
+                }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
 
-
-
-
-            //System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri,null);
-            //string s = await response.Content.ReadAsStringAsync();
-            //answertb.Text = s;
+            //try
+            //{
+            //    var newrowmodel2 = new HistoryRowModel()
+            //    {
+            //        Cps = Convert.ToDouble(Cpstb.Text),
+            //        De = Convert.ToDouble(Detb.Text),
+            //        Der = Convert.ToDouble(Dertb.Text),
+            //        HistoryRowId = Guid.NewGuid(),
+            //        Time = DateTime.Now,
+            //        Type = HistoryType.Alaram
+            //    };
+            //    string postBody = JsonSerializer(newrowmodel2);
+            //    var client2 = new HttpClient();
+            //    client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //    HttpResponseMessage wcfResponse = await client2.PostAsync(uri, new StringContent(postBody, Encoding.UTF8, "application/json"));
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
         }
 
         public string JsonSerializer(object objectToSerialize)
