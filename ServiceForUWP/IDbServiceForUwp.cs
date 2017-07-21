@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using CodeFirst;
 using CodeFirst.Entities;
 
 namespace ServiceForUWP
@@ -36,6 +37,13 @@ namespace ServiceForUWP
             Method = "POST")]
         void AddHistory(List<HistoryRow> newHistory);
 
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/SetConnection",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare,
+            Method = "POST")]
+        void SetConnection(ConnectionProperty connection);
         //[WebInvoke(UriTemplate = "/DeleteHistoryRow",
         //    RequestFormat = WebMessageFormat.Json,
         //    ResponseFormat = WebMessageFormat.Json,

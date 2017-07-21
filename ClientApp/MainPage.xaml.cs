@@ -48,7 +48,7 @@ namespace ClientApp
             await AddHistoryRow();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void AddHistory_Button_Click(object sender, RoutedEventArgs e)
         {
             AddTestHistory();
         }
@@ -214,6 +214,43 @@ namespace ClientApp
             writer.Flush();
             stream.Position = 0;
             return stream;
+        }
+
+        private async void SetConnection_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/SetConnection");
+
+            try
+            {
+                HttpClient client = new HttpClient();
+                var newConProp = new ConPropModel();
+
+                //установка настроек сериализации
+                JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
+                {
+                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
+                };
+                // Serialize our concrete class into a JSON String
+                var stringPayload = JsonConvert.SerializeObject(newConProp, microsoftDateFormatSettings);
+
+                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
+                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+
+                // Do the actual request and await the response
+                var httpResponse = await client.PostAsync(uri, httpContent);
+
+                // If the response contains content we want to read it!
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    answertb.Text = responseContent;
+                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         //public string JsonSerializer(object objectToSerialize)

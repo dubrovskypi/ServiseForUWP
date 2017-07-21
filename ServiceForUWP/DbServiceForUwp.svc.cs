@@ -172,5 +172,10 @@ namespace ServiceForUWP
         {
             historyRepository?.Dispose();
         }
+
+        public void SetConnection(ConnectionProperty connection)
+        {
+            var c = connection;
+        }
     }
 }

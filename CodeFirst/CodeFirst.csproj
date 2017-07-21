@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectionProperty.cs" />
     <Compile Include="Entities\HistoryRow.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Interfaces\IHistoryRow.cs" />

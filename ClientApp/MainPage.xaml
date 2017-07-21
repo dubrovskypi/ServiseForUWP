@@ -72,7 +72,8 @@
 
             <StackPanel Grid.Column="1">
                 <Button Content="addrow"  Margin="10"  Click="AddRow_Button_Click"></Button>
-                <Button Content="addtesthistory" Margin="10" Click="Button_Click_1"></Button>
+                <Button Content="addtesthistory" Margin="10" Click="AddHistory_Button_Click"></Button>
+                <Button Content="setconnection" Margin="10" Click="SetConnection_Button_Click"></Button>
             </StackPanel>
         </Grid>
 
