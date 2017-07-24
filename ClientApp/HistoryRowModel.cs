@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ namespace ClientApp
 {
     public class HistoryRowModel
     {
-
-        public Guid HistoryRowId { get; set; }
+        [Key]
+        public Guid Id { get; set; }
         public DateTime Time { get; set; }
 
         //todo решить косяк с преобразованием в json (или обратно)
@@ -19,6 +20,7 @@ namespace ClientApp
         public double Cps { get; set; }
         public double Der { get; set; }
         public double De { get; set; }
+        public bool IsSynchronized { get; set; }
     }
 
     public enum HistoryType

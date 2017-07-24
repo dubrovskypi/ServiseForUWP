@@ -87,7 +87,9 @@ namespace ClientApp
 
         private async Task AddHistoryRow()
         {
-            var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
+            //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
+            var uri = new Uri("http://localhost:60136/DbService.svc/AddHistoryRow");
+            
 
             try
             {
@@ -97,9 +99,11 @@ namespace ClientApp
                     Cps = Convert.ToDouble(Cpstb.Text),
                     De = Convert.ToDouble(Detb.Text),
                     Der = Convert.ToDouble(Dertb.Text),
-                    HistoryRowId = Guid.NewGuid(),
+                    //HistoryRowId = Guid.NewGuid(),
+                    Id = Guid.NewGuid(),
                     Time = DateTime.Now,
-                    Type = HistoryType.ChangedNCoefficent
+                    Type = HistoryType.ChangedNCoefficent,
+                    IsSynchronized = false
                 };
 
                 //установка настроек сериализации
@@ -167,7 +171,8 @@ namespace ClientApp
                         Cps = random.NextDouble(),
                         De = random.NextDouble(),
                         Der = random.NextDouble(),
-                        HistoryRowId = Guid.NewGuid(),
+                        //HistoryRowId = Guid.NewGuid(),
+                        Id = Guid.NewGuid(),
                         Time = DateTime.Now,
                         Type = HistoryType.DeviceOn
                     };
