@@ -21,6 +21,8 @@ namespace ClientApp
         public double Der { get; set; }
         public double De { get; set; }
         public bool IsSynchronized { get; set; }
+        public string DeviceSerialNumber { get; set; }
+        public string ReaderSerialNumber { get; set; }
     }
 
     public enum HistoryType

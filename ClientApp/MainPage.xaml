@@ -74,6 +74,8 @@
                 <Button Content="addrow"  Margin="10"  Click="AddRow_Button_Click"></Button>
                 <Button Content="addtesthistory" Margin="10" Click="AddHistory_Button_Click"></Button>
                 <Button Content="setconnection" Margin="10" Click="SetConnection_Button_Click"></Button>
+                <Button Content="savetocloud" Margin="10" Click="SaveToCloud_Button_Click" ></Button>
+                <Button Content="clearhistory" Margin="10" Click="ClearHistory_Button_Click" ></Button>
             </StackPanel>
         </Grid>
 

@@ -68,7 +68,8 @@ namespace ClientApp
             //HistoryList.ItemsSource = appsdata;
             try
             {
-                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson");
+                //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson");
+                var uri = new Uri("http://localhost:60136/DbService.svc/GetHistoryRowsJson");
                 var client = new Windows.Web.Http.HttpClient();
                 client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
                 var json = await client.GetStringAsync(uri);
@@ -164,7 +165,7 @@ namespace ClientApp
                 List<HistoryRowModel> history = new List<HistoryRowModel>();
                 Random random = new Random();
 
-                for (int i = 0; i < 100; i++)
+                for (int i = 0; i < 50; i++)
                 {
                     var newrowmodel = new HistoryRowModel()
                     {
@@ -174,7 +175,9 @@ namespace ClientApp
                         //HistoryRowId = Guid.NewGuid(),
                         Id = Guid.NewGuid(),
                         Time = DateTime.Now,
-                        Type = HistoryType.DeviceOn
+                        Type = HistoryType.DeviceOn,
+                        DeviceSerialNumber = "deviceserial",
+                        ReaderSerialNumber = "readerserial"
                     };
                     history.Add(newrowmodel);
                 }
@@ -195,7 +198,8 @@ namespace ClientApp
                 //    httpContent = new StreamContent(s);
                 //}
                 // Do the actual request and await the response
-                var httpResponse = await client.PostAsync(new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistory"), httpContent);
+                //var httpResponse = await client.PostAsync(new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistory"), httpContent);
+                var httpResponse = await client.PostAsync(new Uri("http://localhost:60136/DbService.svc/AddHistory"), httpContent);
 
                 // If the response contains content we want to read it!
                 if (httpResponse.Content != null)
@@ -223,7 +227,8 @@ namespace ClientApp
 
         private async void SetConnection_Button_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/SetConnection");
+            //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/SetConnection");
+            var uri = new Uri("http://localhost:60136/DbServiceForUwp.svc/SetConnection");
 
             try
             {
@@ -255,6 +260,44 @@ namespace ClientApp
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+        }
+
+        private async void SaveToCloud_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var uri = new Uri("http://localhost:60136/DbService.svc/WriteDataToCloud");
+                var client = new Windows.Web.Http.HttpClient();
+                client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
+                var json = await client.GetStringAsync(uri);
+                //var appsdata = JsonConvert.DeserializeObject<bool>(json);
+                answertb.Text = json;
+                client.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        private async void ClearHistory_Button_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var uri = new Uri("http://localhost:60136/DbService.svc/ClearHistory");
+                var client = new Windows.Web.Http.HttpClient();
+                client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
+                var json = await client.GetStringAsync(uri);
+                //var appsdata = JsonConvert.DeserializeObject<bool>(json);
+                answertb.Text = json;
+                client.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
