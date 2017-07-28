@@ -27,5 +27,11 @@ namespace CodeFirst.Contextes
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<HistoryRow> HistoryRows { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<HistoryRow>().HasKey(p => new { p.Type, p.DeviceSerialNumber });
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

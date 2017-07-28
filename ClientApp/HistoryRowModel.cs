@@ -9,9 +9,8 @@ namespace ClientApp
 {
     public class HistoryRowModel
     {
-        [Key]
         public Guid Id { get; set; }
-        public DateTime Time { get; set; }
+        public DateTime MyTime { get; set; }
 
         //todo решить косяк с преобразованием в json (или обратно)
 
@@ -23,6 +22,7 @@ namespace ClientApp
         public bool IsSynchronized { get; set; }
         public string DeviceSerialNumber { get; set; }
         public string ReaderSerialNumber { get; set; }
+        public int Integer321 { get; set; }
     }
 
     public enum HistoryType

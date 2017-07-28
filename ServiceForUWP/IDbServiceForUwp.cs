@@ -44,12 +44,12 @@ namespace ServiceForUWP
             BodyStyle = WebMessageBodyStyle.Bare,
             Method = "POST")]
         void SetConnection(ConnectionProperty connection);
-        //[WebInvoke(UriTemplate = "/DeleteHistoryRow",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json,
-        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-        //    Method = "POST")]
-        //void DeleteHistoryRow(HistoryRow row);
+
+        [WebGet(UriTemplate = "/WriteToCloud",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void WriteToCloud();
 
         //[WebInvoke(UriTemplate = "/ClearHistory",
         //    RequestFormat = WebMessageFormat.Json,

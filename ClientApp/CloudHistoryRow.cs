@@ -9,7 +9,6 @@ namespace ClientApp
 {
     public class CloudHistoryRowModel
     {
-        [Key]
         public Guid Id { get; set; }
         public DateTime Time { get; set; }
 

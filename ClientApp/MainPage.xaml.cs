@@ -68,8 +68,9 @@ namespace ClientApp
             //HistoryList.ItemsSource = appsdata;
             try
             {
-                //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson");
-                var uri = new Uri("http://localhost:60136/DbService.svc/GetHistoryRowsJson");
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson");
+                //var uri = new Uri("http://localhost:60136/DbService.svc/GetHistoryRowsJson");
+                //var uri = new Uri("http://localhost:14888/DbService/GetHistoryRowsJson");
                 var client = new Windows.Web.Http.HttpClient();
                 client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
                 var json = await client.GetStringAsync(uri);
@@ -89,8 +90,9 @@ namespace ClientApp
         private async Task AddHistoryRow()
         {
             //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
-            var uri = new Uri("http://localhost:60136/DbService.svc/AddHistoryRow");
-            
+            //var uri = new Uri("http://localhost:60136/DbService.svc/AddHistoryRow");
+            var uri = new Uri("http://localhost:14888/DbService/AddHistoryRow");
+
 
             try
             {
@@ -101,10 +103,12 @@ namespace ClientApp
                     De = Convert.ToDouble(Detb.Text),
                     Der = Convert.ToDouble(Dertb.Text),
                     //HistoryRowId = Guid.NewGuid(),
-                    Id = Guid.NewGuid(),
-                    Time = DateTime.Now,
+                    //Id = Guid.NewGuid(),
+                    MyTime = DateTime.Now,
                     Type = HistoryType.ChangedNCoefficent,
-                    IsSynchronized = false
+                    IsSynchronized = false,
+                    DeviceSerialNumber = Guid.NewGuid().ToString(),
+                    ReaderSerialNumber = "asdasd123123"
                 };
 
                 //установка настроек сериализации
@@ -174,10 +178,12 @@ namespace ClientApp
                         Der = random.NextDouble(),
                         //HistoryRowId = Guid.NewGuid(),
                         Id = Guid.NewGuid(),
-                        Time = DateTime.Now,
+                        MyTime = DateTime.Now,
                         Type = HistoryType.DeviceOn,
-                        DeviceSerialNumber = "deviceserial",
-                        ReaderSerialNumber = "readerserial"
+                        DeviceSerialNumber = Guid.NewGuid().ToString(),
+                        ReaderSerialNumber = "readerserial",
+
+                        Integer321 = random.Next()
                     };
                     history.Add(newrowmodel);
                 }
@@ -267,7 +273,8 @@ namespace ClientApp
         {
             try
             {
-                var uri = new Uri("http://localhost:60136/DbService.svc/WriteDataToCloud");
+                //var uri = new Uri("http://localhost:60136/DbService.svc/WriteDataToCloud");
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/WriteToCloud");
                 var client = new Windows.Web.Http.HttpClient();
                 client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
                 var json = await client.GetStringAsync(uri);

@@ -16,8 +16,8 @@ namespace CodeFirst.Entities
         #endregion
 
         #region IHistoryRow Members
-        [DataMember]
-        public Guid HistoryRowId { get; set; }
+        //[DataMember]
+        //public Guid Id { get; set; }
         [DataMember]
         public DateTime Time { get; set; }
 
@@ -31,8 +31,14 @@ namespace CodeFirst.Entities
         public double Der { get; set; }
         [DataMember]
         public double De { get; set; }
-
         #endregion
+        [DataMember]
+        public bool IsSynchronized { get; set; }
+        [DataMember]
+        public string DeviceSerialNumber { get; set; }
+        [DataMember]
+        public string ReaderSerialNumber { get; set; }
+
     }
 
     public enum HistoryType

@@ -10,7 +10,8 @@ namespace CodeFirst.Contextes
         {
             var defHistoryRow = new HistoryRow
             {
-                HistoryRowId = Guid.NewGuid(),
+                //HistoryRowId = Guid.NewGuid(),
+                //Id = Guid.NewGuid(),
                 Cps = 1,
                 De = 2,
                 Der = 3,

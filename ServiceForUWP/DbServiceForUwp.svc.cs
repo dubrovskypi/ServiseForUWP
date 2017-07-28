@@ -157,9 +157,14 @@ namespace ServiceForUWP
         {
             try
             {
-                if (historyRepository == null) return;
-                foreach (var row in newHistory) historyRepository.Create(row);
-                historyRepository.Save();
+                using (var rep = DB.CreateHistoryRepository())
+                {
+                if (rep == null) return;
+                foreach (var row in newHistory) rep.Create(row);
+                rep.Save();
+                }
+
+
             }
             catch (Exception e)
             {
@@ -176,6 +181,31 @@ namespace ServiceForUWP
         public void SetConnection(ConnectionProperty connection)
         {
             var c = connection;
+        }
+
+        public void WriteToCloud()
+        {
+            var localHistory = historyRepository.GetItems();
+            try
+            {
+                foreach (var row in localHistory)
+                {
+
+                    row.IsSynchronized = true;
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("ошибка при добавлении записей в удаленную бд: " + e.Message, e);
+            }
+            try
+            {
+                historyRepository.Save();
+            }
+            catch (Exception e)
+            {
+                throw new Exception("ошибка при сохранении изменений: " + e.Message, e);
+            }
         }
     }
 }
