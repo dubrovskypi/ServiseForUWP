@@ -14,32 +14,10 @@ namespace CodeFirst.Repositories
     {
         private SampleContext _db;
 
-        //internal HistoryRepository()
-        //{
-        //    this._db = new SampleContext();
-        //    //InitDB();
-        //}
-
         internal HistoryRepository(SampleContext ctx)
         {
             this._db = ctx;
-            //InitDB();
         }
-
-        //переделать
-        //private void InitDB()
-        //{
-        //    try
-        //    {
-        //        var init = new DBInitializer();
-        //        init.InitializeDatabase(this._db);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new Exception(e.Message);
-        //    }
-
-        //}
 
         public IEnumerable<HistoryRow> GetItems()
         {
@@ -47,9 +25,14 @@ namespace CodeFirst.Repositories
             return _db.HistoryRows;
         }
 
-        public HistoryRow GetItem(Guid id)
+        //public HistoryRow GetItem(Guid id)
+        //{
+        //    return _db.HistoryRows.Find(id);
+        //}
+
+        public HistoryRow GetItem(params object[] keyObjects)
         {
-            return _db.HistoryRows.Find(id);
+            return _db.HistoryRows.Find(keyObjects);
         }
 
         public void Create(HistoryRow historyrow)
@@ -62,9 +45,16 @@ namespace CodeFirst.Repositories
             _db.Entry(historyrow).State = EntityState.Modified;
         }
 
-        public void Delete(Guid id)
+        //public void Delete(Guid id)
+        //{
+        //    HistoryRow historyrow = _db.HistoryRows.Find(id);
+        //    if (historyrow != null)
+        //        _db.HistoryRows.Remove(historyrow);
+        //}
+
+        public void Delete(params object[] keyObjects)
         {
-            HistoryRow historyrow = _db.HistoryRows.Find(id);
+            HistoryRow historyrow = _db.HistoryRows.Find(keyObjects);
             if (historyrow != null)
                 _db.HistoryRows.Remove(historyrow);
         }

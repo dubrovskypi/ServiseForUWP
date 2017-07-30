@@ -6,31 +6,16 @@ namespace CodeFirst.Contextes
 {
     public class SampleContext : DbContext
     {
-        //дефолтный конструктор, пока не нужен
-        //internal SampleContext() : base(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString)
-        ////public SampleContext() : base()
-        //{
-        //    //Database.SetInitializer<SampleContext>(new DBInitializer());
-        //    //var cs = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //    //Database.Connection.ConnectionString = cs;
-        //}
-
         internal SampleContext(string conStr): base (conStr)
         {
-
+            Database.SetInitializer<SampleContext>(new DBInitializer());
         }
-        //static SampleContext()
-        //{
-        //    //Database.SetInitializer(new DBInitializer());
-        //}
 
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Order> Orders { get; set; }
         public DbSet<HistoryRow> HistoryRows { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<HistoryRow>().HasKey(p => new { p.Type, p.DeviceSerialNumber });
+            modelBuilder.Entity<HistoryRow>().HasKey(p => new {p.EventTime, p.Type, p.DeviceSerialNumber });
             base.OnModelCreating(modelBuilder);
         }
     }

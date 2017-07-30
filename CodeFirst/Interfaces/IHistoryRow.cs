@@ -5,7 +5,7 @@ namespace CodeFirst.Interfaces
 {
     public interface IHistoryRow
     {
-        DateTime Time { get; set; }
+        DateTime EventTime { get; set; }
         HistoryType Type { get; set; }
         double Cps { get; set; }
         double Der { get; set; }

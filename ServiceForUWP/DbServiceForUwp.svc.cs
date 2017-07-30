@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.ServiceModel.Web;
+using System.Transactions;
 using System.Text;
 using CodeFirst;
 using CodeFirst.Entities;
@@ -18,7 +18,9 @@ namespace ServiceForUWP
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class DbServiceForUwp : IDbServiceForUwp, IDisposable
     {
-        private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         private IRepository<HistoryRow> historyRepository;
 
         public DbServiceForUwp()
@@ -34,8 +36,7 @@ namespace ServiceForUWP
 
         public List<HistoryRow> GetHistoryRowsJson()
         {
-            var history = GetHistory();
-            return history;
+            return GetHistory();
         }
 
         public void AddHistoryRow(HistoryRow newRow)
@@ -48,32 +49,67 @@ namespace ServiceForUWP
             WriteHistory(newHistory);
         }
 
-        //public void DeleteHistoryRow(HistoryRow row)
-        //{
-        //    try
-        //    {
-        //        if (historyRepository == null) return;
+        public void SetConnection(ConnectionProperty connection)
+        {
+            //TODO убрать заглушку
+            var c = connection;
+        }
 
-        //        historyRepository.Delete(row.HistoryRowId);
-        //        historyRepository.Save();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new FaultException(e.Message);
-        //    }
-        //}
+        public void WriteToCloud()
+        {
+            var localHistory = historyRepository.GetItems();
+            var unsyncLocalHistory = localHistory.Where(r => !r.IsSynchronized);
+            try
+            {
+                var cloudConStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
+                using (var cloudRep = DB.CreateHistoryRepository(cloudConStr))
+                {
+                    using (var scope = new TransactionScope())
+                    {
+                        foreach (var row in unsyncLocalHistory)
+                        {
+                            cloudRep.Create(row);
+                            row.IsSynchronized = true;
+                        }
+                        historyRepository.Save();
+                        cloudRep.Save();
+                    scope.Complete();
+                }
+            }
+            }
+            catch (Exception e)
+            {
+                throw new Exception("ошибка при переносе истори в удаленную бд: " + e.Message + "\n" + e.StackTrace);
+            }
+        }
 
-        //public void ClearHistory()
-        //{
-        //    try
-        //    {
-        //        if (historyRepository == null) return;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new FaultException(e.Message);
-        //    }
-        //}
+        public void ClearHistory()
+        {
+            ClearLocalHistory();
+        }
+
+
+        public void FillTestRows()
+        {
+            //Todo пока что сделаю заполнение локальной бд записями для теста
+            var testHistory = new List<HistoryRow>();
+            var random = new Random();
+            for (int i = 0; i < 50; i++)
+            {
+                testHistory.Add(new HistoryRow()
+                {
+                    EventTime = DateTime.Now,
+                    Cps = random.NextDouble(),
+                    De = random.NextDouble(),
+                    Der = random.NextDouble(),
+                    DeviceSerialNumber = Guid.NewGuid().ToString(),
+                    ReaderSerialNumber = "Serial",
+                    IsSynchronized = false,
+                    Type = HistoryType.Alaram
+                });
+            }
+            WriteHistory(testHistory);
+        }
         #endregion
 
         #region PrivateMetods
@@ -82,7 +118,7 @@ namespace ServiceForUWP
         {
             try
             {
-                var historyRowsList = new List<HistoryRow>();
+                List<HistoryRow> historyRowsList = null;
                 if (historyRepository == null) return historyRowsList;
                 historyRowsList = historyRepository.GetItems().ToList();
                 return historyRowsList;
@@ -157,14 +193,28 @@ namespace ServiceForUWP
         {
             try
             {
-                using (var rep = DB.CreateHistoryRepository())
+                if (historyRepository == null) return;
+                foreach (var row in newHistory) historyRepository.Create(row);
+                historyRepository.Save();
+            }
+            catch (Exception e)
+            {
+                throw new FaultException(e.Message);
+            }
+        }
+
+        private void ClearLocalHistory()
+        {
+            try
+            {
+                if (historyRepository == null) return;
+                var localhistory = historyRepository.GetItems();
+                var syncLocalHistory = localhistory.Where(r => r.IsSynchronized);
+                foreach (var row in syncLocalHistory)
                 {
-                if (rep == null) return;
-                foreach (var row in newHistory) rep.Create(row);
-                rep.Save();
+                    historyRepository.Delete(row.EventTime, row.Type, row.DeviceSerialNumber);
                 }
-
-
+                historyRepository.Save();
             }
             catch (Exception e)
             {
@@ -178,34 +228,5 @@ namespace ServiceForUWP
             historyRepository?.Dispose();
         }
 
-        public void SetConnection(ConnectionProperty connection)
-        {
-            var c = connection;
-        }
-
-        public void WriteToCloud()
-        {
-            var localHistory = historyRepository.GetItems();
-            try
-            {
-                foreach (var row in localHistory)
-                {
-
-                    row.IsSynchronized = true;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("ошибка при добавлении записей в удаленную бд: " + e.Message, e);
-            }
-            try
-            {
-                historyRepository.Save();
-            }
-            catch (Exception e)
-            {
-                throw new Exception("ошибка при сохранении изменений: " + e.Message, e);
-            }
-        }
     }
 }

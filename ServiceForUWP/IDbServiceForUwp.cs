@@ -51,11 +51,16 @@ namespace ServiceForUWP
             BodyStyle = WebMessageBodyStyle.Bare)]
         void WriteToCloud();
 
-        //[WebInvoke(UriTemplate = "/ClearHistory",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json,
-        //    BodyStyle = WebMessageBodyStyle.WrappedRequest,
-        //    Method = "POST")]
-        //void ClearHistory();
+        [WebGet(UriTemplate = "/ClearHistory",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void ClearHistory();
+
+        [WebGet(UriTemplate = "/FillTestRows",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void FillTestRows();
     }
 }

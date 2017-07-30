@@ -18,13 +18,12 @@ namespace CodeFirst.Entities
         #region IHistoryRow Members
         //[DataMember]
         //public Guid Id { get; set; }
+        //[DataMember]
+        //public DateTime Time { get; set; }
         [DataMember]
-        public DateTime Time { get; set; }
-
-        //todo решить косяк с преобразованием в json (или обратно)
+        public DateTime EventTime { get; set; }
         [DataMember]
         public HistoryType Type { get; set; }
-
         [DataMember]
         public double Cps { get; set; }
         [DataMember]
@@ -40,7 +39,7 @@ namespace CodeFirst.Entities
         public string ReaderSerialNumber { get; set; }
 
     }
-
+    [DataContract]
     public enum HistoryType
     {
         /// <summary>

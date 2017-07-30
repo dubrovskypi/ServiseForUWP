@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 
 namespace CodeFirst
 {
-    [DataContract]
     public class ConnectionProperty
     {
-        [DataMember]
         public string ServerName { get; set; }
-        [DataMember]
         public string DatabaseName { get; set; }
-        [DataMember]
         public string UserName { get; set; }
-        [DataMember]
         public string Password { get; set; }
+        public bool TrustServerCertificate { get; private set; }
+        public bool IntegratedSecurity { get; private set; }
 
         public ConnectionProperty()
         {
@@ -26,6 +17,8 @@ namespace CodeFirst
             DatabaseName = "testdbforuwp";
             UserName = "Pasha";
             Password = "1234";
+            IntegratedSecurity = true;
+            TrustServerCertificate = true;
         }
 
         public ConnectionProperty(SqlConnectionStringBuilder newConnection)
@@ -34,6 +27,8 @@ namespace CodeFirst
             DatabaseName = newConnection.InitialCatalog;
             UserName = newConnection.UserID;
             Password = newConnection.Password;
+            IntegratedSecurity = newConnection.IntegratedSecurity;
+            TrustServerCertificate = newConnection.TrustServerCertificate;
         }
 
         public ConnectionProperty(string newConStr)
@@ -43,6 +38,8 @@ namespace CodeFirst
             DatabaseName = newConnection.InitialCatalog;
             UserName = newConnection.UserID;
             Password = newConnection.Password;
+            TrustServerCertificate = newConnection.TrustServerCertificate;
+            IntegratedSecurity = newConnection.IntegratedSecurity;
         }
 
         public string GetConnectionString()
@@ -52,7 +49,9 @@ namespace CodeFirst
                 DataSource = ServerName,
                 InitialCatalog = DatabaseName,
                 UserID = UserName,
-                Password = Password
+                Password = Password,
+                IntegratedSecurity = IntegratedSecurity,
+                TrustServerCertificate = TrustServerCertificate
             };
             return constr.ConnectionString;
         }

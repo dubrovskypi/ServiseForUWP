@@ -51,13 +51,10 @@
   <ItemGroup>
     <Compile Include="ConnectionProperty.cs" />
     <Compile Include="Entities\HistoryRow.cs" />
-    <Compile Include="Entities\Order.cs" />
     <Compile Include="Interfaces\IHistoryRow.cs" />
-    <Compile Include="Repositories\CustomRepository.cs" />
     <Compile Include="DB.cs" />
     <Compile Include="Contextes\DBInitializer.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Entities\Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Contextes\SampleContext.cs" />
     <Compile Include="Repositories\HistoryRepository.cs" />

@@ -16,9 +16,12 @@ namespace CodeFirst
     {
         private static SqlConnectionStringBuilder _connStringBuilder = new SqlConnectionStringBuilder()
         {
-            DataSource = "(LocalDB)\\MSSQLLocalDB", //server
+
+            //DataSource = "(LocalDB)\\MSSQLLocalDB", //server
+            DataSource = ".\\SQLEXPRESS",
             InitialCatalog = "testdbforuwp", //DB name
-            //IntegratedSecurity = true,
+            IntegratedSecurity = true,
+            TrustServerCertificate = true,
 
             //IntegratedSecurity = false,
             //Pooling = false,
@@ -80,20 +83,14 @@ namespace CodeFirst
             }
         }
 
-        //public static CustomRepository CreateRepository()
-        //{
-        //    return new CustomRepository(new SampleContext(ConnectionString));
-        //}
-        public static CustomRepository CreateCustomRepository()
-        {
-            return new CustomRepository(new SampleContext(ConnectionString));
-        }
-
         public static HistoryRepository CreateHistoryRepository()
         {
             return new HistoryRepository(new SampleContext(ConnectionString));
         }
-
+        public static HistoryRepository CreateHistoryRepository(string conStr)
+        {
+            return new HistoryRepository(new SampleContext(conStr));
+        }
 
     }
 }

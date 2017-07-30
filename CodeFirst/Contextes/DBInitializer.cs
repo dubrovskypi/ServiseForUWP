@@ -12,11 +12,14 @@ namespace CodeFirst.Contextes
             {
                 //HistoryRowId = Guid.NewGuid(),
                 //Id = Guid.NewGuid(),
-                Cps = 1,
-                De = 2,
-                Der = 3,
-                Time = DateTime.Now,
-                Type = HistoryType.DeviceOn
+                Cps = 0.1,
+                De = 0.2,
+                Der = 0.3,
+                EventTime = DateTime.Now,
+                Type = HistoryType.DeviceOn,
+                DeviceSerialNumber = Guid.NewGuid().ToString(),
+                ReaderSerialNumber = "serialreader",
+                IsSynchronized = false
             };
             context.HistoryRows.Add(defHistoryRow);
             context.SaveChanges();
