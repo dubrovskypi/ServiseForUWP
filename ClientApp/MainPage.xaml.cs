@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Web.Http.Headers;
 using Newtonsoft.Json;
+using HttpClient = Windows.Web.Http.HttpClient;
 
 // Документацию по шаблону элемента "Пустая страница" см. по адресу https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x419
 
@@ -38,6 +39,8 @@ namespace ClientApp
             this.InitializeComponent();
         }
 
+        #region EventHandlers
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             GetHistory();
@@ -48,63 +51,65 @@ namespace ClientApp
             await AddHistoryRow();
         }
 
-        private void AddHistory_Button_Click(object sender, RoutedEventArgs e)
+        private async void AddHistory_Button_Click(object sender, RoutedEventArgs e)
         {
-            AddTestHistory();
+            await AddTestHistory();
         }
 
-        public async void GetHistory()
+        private async void SetConnection_Button_Click(object sender, RoutedEventArgs e)
         {
-            //var uri = new Uri("http://localhost:64870/service1.svc/GetScheduleJson");
-            //var client = new Windows.Web.Http.HttpClient();
-            //var json = await client.GetStringAsync(uri);
+            await SetConnection();
+        }
 
-            //var uri = new Uri("http://localhost:55195/service1.svc/GetHistoryRowsJson");
-            //System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-            //System.Net.Http.HttpResponseMessage responseGet = await client.GetAsync(uri);
-            //string json = await responseGet.Content.ReadAsStringAsync();
-            //List<HistoryRowModel> appsdata = JsonConvert.DeserializeObject<List<HistoryRowModel>>(json);
-            //answertb.Text = json;
-            //HistoryList.ItemsSource = appsdata;
+        private async void SaveToCloud_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await SaveToCloud();
+        }
+
+        private async void ClearHistory_Button_Click(object sender, RoutedEventArgs e)
+        {
+            await ClearHistory();
+        }
+        #endregion
+
+        #region PrivateMetods
+
+        private async void GetHistory()
+        {
             try
             {
-                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson");
-                //var uri = new Uri("http://localhost:60136/DbService.svc/GetHistoryRowsJson");
-                //var uri = new Uri("http://localhost:14888/DbService/GetHistoryRowsJson");
-                var client = new Windows.Web.Http.HttpClient();
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/GetHistoryRowsJson"); //текушее решение
+                //var uri = new Uri("http://localhost:60136/DbService.svc/GetHistoryRowsJson"); //dbservice
+                //var uri = new Uri("http://localhost:14888/DbService/GetHistoryRowsJson");//dbwebservice
+                var client = new HttpClient();
                 client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
                 var json = await client.GetStringAsync(uri);
-                List<HistoryRowModel> appsdata = JsonConvert.DeserializeObject<List<HistoryRowModel>>(json);
                 answertb.Text = json;
+                List<HistoryRowModel> appsdata = JsonConvert.DeserializeObject<List<HistoryRowModel>>(json);
                 if (HistoryList.ItemsSource != null) HistoryList.ItemsSource = null;
                 HistoryList.ItemsSource = appsdata;
-                client.Dispose();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
         }
 
         private async Task AddHistoryRow()
         {
-            //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");
-            //var uri = new Uri("http://localhost:60136/DbService.svc/AddHistoryRow");
-            var uri = new Uri("http://localhost:14888/DbService/AddHistoryRow");
-
-
             try
             {
-                HttpClient client = new HttpClient();
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistoryRow");//текущее решение
+                //var uri = new Uri("http://localhost:60136/DbService.svc/AddHistoryRow"); dbservice
+                //var uri = new Uri("http://localhost:14888/DbService/AddHistoryRow"); вебсервис
+                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
                 var newrowmodel = new HistoryRowModel()
                 {
                     Cps = Convert.ToDouble(Cpstb.Text),
                     De = Convert.ToDouble(Detb.Text),
                     Der = Convert.ToDouble(Dertb.Text),
-                    //HistoryRowId = Guid.NewGuid(),
                     //Id = Guid.NewGuid(),
-                    MyTime = DateTime.Now,
+                    EventTime = DateTime.Now,
                     Type = HistoryType.ChangedNCoefficent,
                     IsSynchronized = false,
                     DeviceSerialNumber = Guid.NewGuid().ToString(),
@@ -137,38 +142,17 @@ namespace ClientApp
             {
                 Console.WriteLine(ex);
             }
-
-            //отправка пост-запроса данными, сериализованными стандартным способом microsoft
-            //try
-            //{
-            //    var newrowmodel2 = new HistoryRowModel()
-            //    {
-            //        Cps = Convert.ToDouble(Cpstb.Text),
-            //        De = Convert.ToDouble(Detb.Text),
-            //        Der = Convert.ToDouble(Dertb.Text),
-            //        HistoryRowId = Guid.NewGuid(),
-            //        Time = DateTime.Now,
-            //        Type = HistoryType.Alaram
-            //    };
-            //    string postBody = JsonSerializer(newrowmodel2);
-            //    var client2 = new HttpClient();
-            //    client2.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //    HttpResponseMessage wcfResponse = await client2.PostAsync(uri, new StringContent(postBody, Encoding.UTF8, "application/json"));
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
         }
 
-        private async void AddTestHistory()
+        private async Task AddTestHistory()
         {
             try
             {
-                HttpClient client = new HttpClient();
+                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                //var uri = new Uri("http://localhost:60136/DbService.svc/AddHistory"); //dbservice
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistory"); // current solution
                 List<HistoryRowModel> history = new List<HistoryRowModel>();
                 Random random = new Random();
-
                 for (int i = 0; i < 50; i++)
                 {
                     var newrowmodel = new HistoryRowModel()
@@ -178,89 +162,24 @@ namespace ClientApp
                         Der = random.NextDouble(),
                         //HistoryRowId = Guid.NewGuid(),
                         Id = Guid.NewGuid(),
-                        MyTime = DateTime.Now,
+                        EventTime = DateTime.Now,
                         Type = HistoryType.DeviceOn,
                         DeviceSerialNumber = Guid.NewGuid().ToString(),
-                        ReaderSerialNumber = "readerserial",
-
-                        Integer321 = random.Next()
+                        ReaderSerialNumber = "readerserial"
                     };
                     history.Add(newrowmodel);
                 }
-
-                //установка настроек сериализации
                 JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
                 {
                     DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
                 };
-                // Serialize our concrete class into a JSON String
                 var stringPayload = JsonConvert.SerializeObject(history, microsoftDateFormatSettings);
-
-                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
                 var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-                //StreamContent httpContent;
-                //using (Stream s = GenerateStreamFromString(stringPayload))
-                //{
-                //    httpContent = new StreamContent(s);
-                //}
-                // Do the actual request and await the response
-                //var httpResponse = await client.PostAsync(new Uri("http://localhost:55195/DbServiceForUwp.svc/AddHistory"), httpContent);
-                var httpResponse = await client.PostAsync(new Uri("http://localhost:60136/DbService.svc/AddHistory"), httpContent);
-
-                // If the response contains content we want to read it!
-                if (httpResponse.Content != null)
-                {
-                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
-                    answertb.Text = responseContent;
-                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
-
-        public static Stream GenerateStreamFromString(string s)
-        {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return stream;
-        }
-
-        private async void SetConnection_Button_Click(object sender, RoutedEventArgs e)
-        {
-            //var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/SetConnection");
-            var uri = new Uri("http://localhost:60136/DbServiceForUwp.svc/SetConnection");
-
-            try
-            {
-                HttpClient client = new HttpClient();
-                var newConProp = new ConPropModel();
-
-                //установка настроек сериализации
-                JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
-                {
-                    DateFormatHandling = DateFormatHandling.MicrosoftDateFormat
-                };
-                // Serialize our concrete class into a JSON String
-                var stringPayload = JsonConvert.SerializeObject(newConProp, microsoftDateFormatSettings);
-
-                // Wrap our JSON inside a StringContent which then can be used by the HttpClient class
-                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
-
-                // Do the actual request and await the response
                 var httpResponse = await client.PostAsync(uri, httpContent);
-
-                // If the response contains content we want to read it!
                 if (httpResponse.Content != null)
                 {
                     var responseContent = await httpResponse.Content.ReadAsStringAsync();
                     answertb.Text = responseContent;
-                    // From here on you could deserialize the ResponseContent back again to a concrete C# type using Json.Net
                 }
             }
             catch (Exception ex)
@@ -269,44 +188,65 @@ namespace ClientApp
             }
         }
 
-        private async void SaveToCloud_Button_Click(object sender, RoutedEventArgs e)
+        private async Task SetConnection()
         {
             try
             {
-                //var uri = new Uri("http://localhost:60136/DbService.svc/WriteDataToCloud");
-                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/WriteToCloud");
-                var client = new Windows.Web.Http.HttpClient();
-                client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
-                var json = await client.GetStringAsync(uri);
-                //var appsdata = JsonConvert.DeserializeObject<bool>(json);
-                answertb.Text = json;
-                client.Dispose();
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/SetConnection"); //current solution
+                //var uri = new Uri("http://localhost:60136/DbService.svc/SetConnection"); //dbservice
+                System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
+                var newConProp = new ConnectionPropertyModel();
+
+                var stringPayload = JsonConvert.SerializeObject(newConProp);
+                var httpContent = new StringContent(stringPayload, Encoding.UTF8, "application/json");
+                var httpResponse = await client.PostAsync(uri, httpContent);
+                if (httpResponse.Content != null)
+                {
+                    var responseContent = await httpResponse.Content.ReadAsStringAsync();
+                    answertb.Text = responseContent;
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine(ex);
             }
         }
 
-        private async void ClearHistory_Button_Click(object sender, RoutedEventArgs e)
+        private async Task SaveToCloud()
         {
             try
             {
-                var uri = new Uri("http://localhost:60136/DbService.svc/ClearHistory");
-                var client = new Windows.Web.Http.HttpClient();
+                //var uri = new Uri("http://localhost:60136/DbService.svc/WriteDataToCloud"); //dbservice
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/WriteToCloud"); //current solution
+                var client = new HttpClient();
                 client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
                 var json = await client.GetStringAsync(uri);
-                //var appsdata = JsonConvert.DeserializeObject<bool>(json);
                 answertb.Text = json;
-                client.Dispose();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine(ex);
             }
         }
+
+        private async Task ClearHistory()
+        {
+            try
+            {
+                //var uri = new Uri("http://localhost:60136/DbService.svc/ClearHistory"); //dbservice
+                var uri = new Uri("http://localhost:55195/DbServiceForUwp.svc/ClearHistory"); //current solution
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.IfModifiedSince = DateTime.Now;
+                var json = await client.GetStringAsync(uri);
+                answertb.Text = json;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        #endregion
 
         //public string JsonSerializer(object objectToSerialize)
         //{

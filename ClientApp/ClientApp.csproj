@@ -96,7 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CloudHistoryRow.cs" />
-    <Compile Include="ConPropModel.cs" />
+    <Compile Include="ConnectionPropertyModel.cs" />
     <Compile Include="HistoryRowModel.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

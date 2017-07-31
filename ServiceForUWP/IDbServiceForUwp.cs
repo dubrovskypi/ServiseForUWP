@@ -3,6 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using CodeFirst;
 using CodeFirst.Entities;
+using ServiceForUWP.Models;
 
 namespace ServiceForUWP
 {
@@ -38,7 +39,7 @@ namespace ServiceForUWP
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare,
             Method = "POST")]
-        void SetConnection(ConnectionProperty connection);
+        void SetConnection(ConnectionPropertyModel connection);
 
         [WebGet(UriTemplate = "/WriteToCloud",
             RequestFormat = WebMessageFormat.Json,

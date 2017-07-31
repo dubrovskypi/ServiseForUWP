@@ -10,19 +10,14 @@ namespace ClientApp
     public class HistoryRowModel
     {
         public Guid Id { get; set; }
-        public DateTime MyTime { get; set; }
-
-        //todo решить косяк с преобразованием в json (или обратно)
-
+        public DateTime EventTime { get; set; }
         public HistoryType Type { get; set; }
-
         public double Cps { get; set; }
         public double Der { get; set; }
         public double De { get; set; }
         public bool IsSynchronized { get; set; }
         public string DeviceSerialNumber { get; set; }
         public string ReaderSerialNumber { get; set; }
-        public int Integer321 { get; set; }
     }
 
     public enum HistoryType

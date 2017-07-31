@@ -25,11 +25,13 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:HistoryRowModel">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Time}" Margin="10,0"/>
+                            <TextBlock Text="{Binding EventTime}" Margin="10,0"/>
                             <TextBlock Text="{Binding Cps}" Margin="10,0" />
                             <TextBlock Text="{Binding De}" Margin="10,0" />
                             <TextBlock Text="{Binding Der}" Margin="10,0" />
                             <TextBlock Text="{Binding Type}" Margin="10,0" />
+                            <TextBlock Text="{Binding IsSynchronized}" Margin="10,0" />
+                            <TextBlock Text="{Binding DeviceSerialNumber}" Margin="10,0" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

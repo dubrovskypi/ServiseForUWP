@@ -70,6 +70,7 @@
       <DependentUpon>DbServiceForUwp.svc</DependentUpon>
     </Compile>
     <Compile Include="IDbServiceForUwp.cs" />
+    <Compile Include="Models\ConnectionPropertyModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

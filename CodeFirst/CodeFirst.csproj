@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionProperty.cs" />
+    <Compile Include="Entities\ConnectionProperty.cs" />
     <Compile Include="Entities\HistoryRow.cs" />
     <Compile Include="Interfaces\IHistoryRow.cs" />
     <Compile Include="DB.cs" />

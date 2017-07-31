@@ -11,6 +11,7 @@ using System.Text;
 using CodeFirst;
 using CodeFirst.Entities;
 using CodeFirst.Interfaces;
+using ServiceForUWP.Models;
 
 namespace ServiceForUWP
 {
@@ -18,7 +19,7 @@ namespace ServiceForUWP
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class DbServiceForUwp : IDbServiceForUwp, IDisposable
     {
-        private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=DefaultHistory;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=DefaultHistoryForGit;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         //private string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private IRepository<HistoryRow> historyRepository;
@@ -49,7 +50,7 @@ namespace ServiceForUWP
             WriteHistory(newHistory);
         }
 
-        public void SetConnection(ConnectionProperty connection)
+        public void SetConnection(ConnectionPropertyModel connection)
         {
             //TODO убрать заглушку
             var c = connection;
@@ -62,9 +63,11 @@ namespace ServiceForUWP
             try
             {
                 //var cloudConStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
-                var cloudConStr = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
+                var cloudConStr = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=RemotedDbForGit;Integrated Security=True;TrustServerCertificate=True;";
                 using (var cloudRep = DB.CreateHistoryRepository(cloudConStr))
                 {
+                    cloudRep.GetItems(); //для создания бд, если ее нет
+                    
                     using (var scope = new TransactionScope())
                     {
                         foreach (var row in unsyncLocalHistory)
@@ -74,9 +77,9 @@ namespace ServiceForUWP
                         }
                         historyRepository.Save();
                         cloudRep.Save();
-                    scope.Complete();
+                        scope.Complete();
+                    }
                 }
-            }
             }
             catch (Exception e)
             {
@@ -88,7 +91,6 @@ namespace ServiceForUWP
         {
             ClearLocalHistory();
         }
-
 
         public void FillTestRows()
         {
