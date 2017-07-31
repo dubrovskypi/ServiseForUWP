@@ -16,6 +16,7 @@ namespace CodeFirst.Contextes
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HistoryRow>().HasKey(p => new {p.EventTime, p.Type, p.DeviceSerialNumber });
+            modelBuilder.Entity<HistoryRow>().Property(p => p.EventTime).HasColumnType("datetime2");
             base.OnModelCreating(modelBuilder);
         }
     }

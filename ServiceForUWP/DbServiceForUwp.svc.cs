@@ -18,8 +18,8 @@ namespace ServiceForUWP
     // ПРИМЕЧАНИЕ. Чтобы запустить клиент проверки WCF для тестирования службы, выберите элементы Service1.svc или Service1.svc.cs в обозревателе решений и начните отладку.
     public class DbServiceForUwp : IDbServiceForUwp, IDisposable
     {
-        //private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private string ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=DefaultHistory;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        //private string ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=testdbforuwp;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         private IRepository<HistoryRow> historyRepository;
 
@@ -61,7 +61,8 @@ namespace ServiceForUWP
             var unsyncLocalHistory = localHistory.Where(r => !r.IsSynchronized);
             try
             {
-                var cloudConStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
+                //var cloudConStr = @"Data Source=.\SQLEXPRESS;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
+                var cloudConStr = @"Data Source=(LocalDB)\MSSQLLocalDB;Initial Catalog=RemotedDB;Integrated Security=True;TrustServerCertificate=True;";
                 using (var cloudRep = DB.CreateHistoryRepository(cloudConStr))
                 {
                     using (var scope = new TransactionScope())
@@ -91,7 +92,6 @@ namespace ServiceForUWP
 
         public void FillTestRows()
         {
-            //Todo пока что сделаю заполнение локальной бд записями для теста
             var testHistory = new List<HistoryRow>();
             var random = new Random();
             for (int i = 0; i < 50; i++)
